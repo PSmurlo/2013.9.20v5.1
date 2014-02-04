@@ -1,0 +1,51 @@
+% function pvFarmDraw(qH,qW,numCB)
+x=0; %neal what do these do??
+y=0; %neal what do these do/represent??
+% global eleDim modPV
+% totW = eleDim.totW;
+% totH = eleDim.totH;
+% modW = modPV.module_width;
+% modH = modPV.module_length;
+% tableRows = eleDim.nmody;
+% tableCols = eleDim.nstrx*modPV.mps;
+
+totW = 40;
+totH = 10;
+qH=10;
+qW=14;
+numCB=0;
+
+
+if numCB ~= 0 % Alencon
+    quadH = qH*totH + 10;
+    quadW = qW*totW + 10;
+
+    pvQuadDraw(x,           y,          totW,totH,qH,qW,0)
+%     pvQuadDraw(x,           y + quadH,  totW,totH,qH,qW,0)
+%     pvQuadDraw(x + quadW,   y,          totW,totH,qH,qW,1)
+%     pvQuadDraw(x + quadW,   y + quadH,  totW,totH,qH,qW,1)
+
+    ylabel('Meters');
+    xlabel('Meters');
+    numTables = qH * qW * 4;
+
+    title1 = horzcat('Quads are ',num2str(qW),' tables wide by ',num2str(qH),' tables tall.');
+    title2 = horzcat(num2str(numTables),' tables total, with ',num2str(numCB),' combiner boxes.');
+    title({title1,title2});
+else % Conventional
+    quadH = qH*totH + 10;
+    quadW = qW*totW + 10;
+
+    pvQuadDraw(x,           y,          totW,totH,qH,qW,0)
+    pvQuadDraw(x,           y + quadH,  totW,totH,qH,qW,0)
+    pvQuadDraw(x + quadW,   y,          totW,totH,qH,qW,0)
+    pvQuadDraw(x + quadW,   y + quadH,	totW,totH,qH,qW,0)
+
+    ylabel('Meters');
+    xlabel('Meters');
+    numTables = qH * qW * 4;
+
+    title1 = horzcat('Quads are ',num2str(qW),' tables wide by ',num2str(qH),' tables tall.');
+    title2 = horzcat(num2str(numTables),' tables total.');
+    title({title1,title2});
+end

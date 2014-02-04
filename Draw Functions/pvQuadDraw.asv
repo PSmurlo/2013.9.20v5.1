@@ -1,0 +1,34 @@
+function pvQuadDraw(x,y,totW,totH,qH,qW,cbSide)
+
+for i = 0:qW-1
+    for j = 1:qH-1
+        %pvTableDraw(tableX,tableY,modW,modH,tableRows,tableCols)
+        tableY = tableY + totH;
+    end
+    tableX = tableX + totW;
+    if i ~= qW && mod(i,2) == 1
+        rectangle('Position',[sssss y 0.001 qH*totH-totH],'LineWidth',2)
+    end
+end
+
+
+% if fgfgg == 1
+%     stepValue = 6;
+% elseif qW == 2
+%     stepValue = 3;
+% elseif qW == 3
+%     stepValue = 2;
+% else
+%     stepValue = 1;
+% end
+
+cbH = y + 1;
+
+if cbSide == 1
+    for i = 1:stepValue:qH
+        rectangle('Position',[(x-6) (cbH) 2 2],'EdgeColor','red')
+        cbH = cbH + totH*stepValue;
+    end
+end
+
+axis equal

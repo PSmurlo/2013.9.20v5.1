@@ -1,0 +1,187 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Counter</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-08-12"><meta name="DC.source" content="Counter.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">classdef</span> Counter &lt; matlab.System
+    <span class="comment">%Counter Count values above a threshold</span>
+    <span class="comment">%</span>
+    <span class="comment">% This is an example of a discrete-time System object with state</span>
+    <span class="comment">% variables</span>
+    <span class="comment">%</span>
+    <span class="comment">% For more examples refer to the documentation.</span>
+    <span class="comment">% web('http://www.mathworks.com/help/dsp/define-new-system-objects.html', '-browser')</span>
+
+    <span class="keyword">properties</span>
+        Threshold = 1
+    <span class="keyword">end</span>
+
+    <span class="keyword">properties</span> (DiscreteState)
+        <span class="comment">% Define any discrete-time states</span>
+        Count
+    <span class="keyword">end</span>
+
+    <span class="keyword">methods</span>
+        <span class="keyword">function</span> obj = Counter(varargin)
+            <span class="comment">% Support name-value pair arguments</span>
+            setProperties(obj,nargin,varargin{:});
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">methods</span> (Access=protected)
+        <span class="keyword">function</span> setupImpl(obj, u)
+            <span class="comment">% Implement any tasks that need to be performed only once, such</span>
+            <span class="comment">% as computation of constants or creation of child System objects</span>
+            obj.Count = 0;
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> resetImpl(obj)
+            <span class="comment">% Specify initial values for DiscreteState properties</span>
+            obj.Count = 0;
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> y = stepImpl(obj, u)
+            <span class="comment">% Implement System algorithm. Calculate y as a function of</span>
+            <span class="comment">% input u and state.</span>
+            <span class="keyword">if</span> (u &gt; obj.Threshold)
+                obj.Count = obj.Count + 1;
+            <span class="keyword">end</span>
+            y = obj.Count;
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> N = getNumInputsImpl(obj)
+            <span class="comment">% Specify number of System inputs</span>
+            N = 1; <span class="comment">% Because stepImpl has one argument beyond obj</span>
+        <span class="keyword">end</span>
+
+        <span class="keyword">function</span> N = getNumOutputsImpl(obj)
+            <span class="comment">% Specify number of System outputs</span>
+            N = 1; <span class="comment">% Because stepImpl has one output</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2013a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+classdef Counter < matlab.System
+    %Counter Count values above a threshold
+    %
+    % This is an example of a discrete-time System object with state
+    % variables
+    %
+    % For more examples refer to the documentation.
+    % web('http://www.mathworks.com/help/dsp/define-new-system-objects.html', '-browser')
+    
+    properties
+        Threshold = 1
+    end
+    
+    properties (DiscreteState)
+        % Define any discrete-time states
+        Count
+    end
+    
+    methods
+        function obj = Counter(varargin)
+            % Support name-value pair arguments
+            setProperties(obj,nargin,varargin{:});
+        end
+    end
+    
+    methods (Access=protected)
+        function setupImpl(obj, u)
+            % Implement any tasks that need to be performed only once, such
+            % as computation of constants or creation of child System objects
+            obj.Count = 0;
+        end
+        
+        function resetImpl(obj)
+            % Specify initial values for DiscreteState properties
+            obj.Count = 0;
+        end
+        
+        function y = stepImpl(obj, u)
+            % Implement System algorithm. Calculate y as a function of
+            % input u and state.
+            if (u > obj.Threshold)
+                obj.Count = obj.Count + 1;
+            end
+            y = obj.Count;
+        end
+        
+        function N = getNumInputsImpl(obj)
+            % Specify number of System inputs
+            N = 1; % Because stepImpl has one argument beyond obj
+        end
+        
+        function N = getNumOutputsImpl(obj)
+            % Specify number of System outputs
+            N = 1; % Because stepImpl has one output
+        end
+    end
+end
+
+
+##### SOURCE END #####
+--></body></html>

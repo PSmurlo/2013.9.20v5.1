@@ -1,0 +1,1 @@
+output = testvalue*10;
